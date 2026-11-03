@@ -1,0 +1,2525 @@
+/* ============================================================
+   Persona3 — 女神异闻录3 Reload 风格皮肤 for WebSpeak
+   窄线科幻风：细实线描边 · 深蓝黑底 · 电光蓝 #0eb1f4 · 冷青 #6fe3ff
+   ------------------------------------------------------------
+   重构口径（以 P4 v1.1.0 为质量标准，2026-10-14）：
+     · 单一 :root token 层（§4.1），不再保留第二/第三份根令牌
+     · 圆角四档：主卡 10 / 面板·弹层·顶栏 8 / 音频坞·气泡 6 / 字段·按钮·选项 4
+       （头像与状态点 50% 属图形语义例外；装饰面 0）
+     · 深色不透明实底用于 dock/菜单/弹层，玻璃只留给首页主卡与大面板
+     · 循环动效仅 3 个：CTA 3.6s / Sonar 6.5s / live 4.8s（§7.2）
+     · P35-07 宿主深层文字修复块原样保留，位于文件末端区
+   ============================================================ */
+:root {
+  /* ---- §4.1 单一 token 层（原 L12–35 / L1557–1566 / L1927–1932 三处合并）---- */
+  color-scheme: dark;
+  --skin-p3-blue: #0eb1f4;
+  --skin-p3-cyan: #6fe3ff;
+  --skin-p3-accent: var(--skin-p3-blue);
+  --skin-p3-accent-hi: var(--skin-p3-cyan);
+  --skin-p3-black: #000210;
+  --skin-p3-ink: #050d1c;
+  --skin-p3-panel: #0a1a33;
+  --skin-p3-white: #ffffff;
+  --skin-p3-cream: #e6f3fb;
+  --skin-p3-muted: #8fb4d4;
+  --skin-p3-dim: #8fb4d4;
+  --skin-p3-amber: #f2b84b;
+  --skin-p3-line: rgba(14, 177, 244, .42);
+  --skin-p3-glass: rgba(6, 18, 38, .96);
+  --skin-p3-glass-edge: rgba(14, 177, 244, .42);
+  --skin-p3-glass-sheen: rgba(111, 227, 255, .10);
+  --skin-p3-glass-depth: rgba(0, 2, 16, .72);
+  --skin-p3-hard-shadow: 0 4px 0 rgba(0, 2, 16, .68);
+
+  /* ---- 页面底色与纹理（最亮纹理 alpha ≤ .12，见 §1 标准 9 / §10 材质）---- */
+  background-color: var(--skin-p3-black);
+  background-image:
+    radial-gradient(rgba(14, 177, 244, .10) 1px, transparent 1.1px),
+    repeating-linear-gradient(115deg, rgba(14, 177, 244, .06) 0 1px, transparent 1px 16px);
+  background-size: 9px 9px, auto;
+  background-attachment: fixed;
+  color: var(--skin-p3-cream);
+}
+
+/* ==================== 首页 ==================== */
+[data-ws-part="app"] {
+  color: var(--skin-p3-cream);
+}
+
+/* §4.2 首页：背景仍为 P3R 冷蓝黑，不复制 P4 黄白卡 */
+[data-ws-part="home"] {
+  color: var(--skin-p3-cream);
+  background-color: var(--skin-p3-black);
+  background-image: radial-gradient(ellipse at 78% 20%, rgba(14, 177, 244, .14), transparent 38%), linear-gradient(100deg, rgba(0, 2, 16, .98) 0%, rgba(0, 2, 16, .94) 38%, rgba(0, 2, 16, .52) 66%, rgba(0, 2, 16, .20) 100%), url("assets/bg.jpg");
+  background-size: auto, auto, cover;
+  background-position: center, center, 24% 30%;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+}
+/* 页头：暗顶栏 + 8px + 低幅玻璃（§4.2） */
+/* 页头：暗顶栏 + 8px + 低幅玻璃（§4.2） */
+[data-ws-part="home.header"] {
+  color: var(--skin-p3-cream);
+  background-image: none;
+  border-color: rgba(14, 177, 244, .42);
+  border-radius: 8px;
+  background-color: rgba(5, 13, 28, .96);
+  box-shadow: 0 10px 28px rgba(0, 2, 16, .52), inset 0 1px 0 rgba(111, 227, 255, .12);
+  backdrop-filter: blur(10px) saturate(1.08);
+}
+
+[data-ws-part="home.brand"] {
+  color: var(--skin-p3-cream);
+  font-weight: 900;
+  font-style: italic;
+  text-shadow: 2px 2px 0 rgba(14, 177, 244, .44);
+}
+
+[data-ws-part="home.header-tools"] {
+  color: var(--skin-p3-cream);
+}
+
+[data-ws-part="home.gateway-status"] {
+  color: var(--skin-p3-amber);
+  font-weight: 700;
+  text-shadow: none;
+}
+
+/* 顶部控件：深面 + 4px（§6.1 通用 control 体系） */
+/* 顶部控件：与 §6.1 通用 control 同一体系（深面默认 + 电光蓝态） */
+[data-ws-part="skin.trigger"],
+[data-ws-part="language.trigger"],
+[data-ws-part="home.header-tools"] [data-ws-part="control"] {
+  color: var(--skin-p3-cream);
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  font-weight: 800;
+  font-style: italic;
+  box-shadow: 0 2px 0 rgba(0, 2, 16, .58);
+  transition: background-color .1s linear, color .1s linear;
+}
+
+[data-ws-part="skin.trigger"]:hover,
+[data-ws-part="language.trigger"]:hover,
+[data-ws-part="home.header-tools"] [data-ws-part="control"]:hover,
+[data-ws-part="skin.trigger"]:focus-visible,
+[data-ws-part="language.trigger"]:focus-visible,
+[data-ws-part="home.header-tools"] [data-ws-part="control"]:focus-visible {
+  color: var(--skin-p3-black);
+  background-color: var(--skin-p3-blue);
+  border-color: var(--skin-p3-cyan);
+  box-shadow: 0 0 0 2px rgba(111, 227, 255, .28), 0 2px 0 rgba(0, 2, 16, .58);
+}
+
+/* ==================== 主卡片：深玻璃 + 10px（§4.2） ==================== */
+[data-ws-part="home.join-card"] {
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-glass-edge);
+  border-radius: 10px;
+  background-color: var(--skin-p3-glass);
+  background-image: linear-gradient(135deg, var(--skin-p3-glass-sheen), rgba(14, 177, 244, .04));
+  box-shadow: 0 18px 42px var(--skin-p3-glass-depth), inset 0 1px 0 rgba(255, 255, 255, .14), inset 0 0 0 1px rgba(14, 177, 244, .18);
+  backdrop-filter: blur(10px) saturate(1.08);
+}
+
+[data-ws-part="home.join-card"] * {
+  color: inherit;
+}
+
+[data-ws-part="home.join-title"] {
+  color: var(--skin-p3-white);
+  font-weight: 900;
+  font-style: italic;
+  text-shadow: none;
+}
+
+[data-ws-part="home.join-description"],
+[data-ws-part="home.hero.description"] {
+  color: var(--skin-p3-muted);
+  font-weight: 600;
+}
+
+[data-ws-part="home.hero.eyebrow"] {
+  color: var(--skin-p3-cyan);
+  font-weight: 900;
+  font-style: italic;
+  text-shadow: none;
+}
+
+/* 头像位：保留 avatar-slot 背景；仅叠加 §7.2 的 sonar 呼吸（不改背景） */
+[data-ws-part="home.join-card.sonar"] {
+  background-color: transparent;
+  background-image: url("assets/avatar-slot.png");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+[data-ws-part="home.join-card.sonar"] i {
+  background-color: transparent;
+  background-image: none;
+  border-color: transparent;
+  box-shadow: none;
+}
+
+[data-ws-part="home.join-card.waveform"] i {
+  background-color: var(--skin-p3-blue);
+  border-color: var(--skin-p3-black);
+  box-shadow: none;
+}
+
+/* 昵称输入：暗字段 + 4px + 电光蓝焦点环（§4.2） */
+[data-ws-part="home.form"] {
+  color: var(--skin-p3-cream);
+}
+
+[data-ws-part="home.field-label"] {
+  color: var(--skin-p3-muted);
+  font-weight: 800;
+}
+
+/* 昵称输入：暗字段 + 4px + 电光蓝焦点环（§4.2） */
+[data-ws-part="home.field"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(111, 227, 255, .38);
+  border-radius: 4px;
+  background-color: rgba(5, 13, 28, .98);
+  background-image: none;
+  box-shadow: none;
+  backdrop-filter: none;
+}
+
+[data-ws-part="home.field"] input,
+[data-ws-part="home.field"] > * {
+  color: var(--skin-p3-cream);
+  background-color: transparent;
+  font-weight: 700;
+}
+
+[data-ws-part="home.field"] input::placeholder {
+  color: var(--skin-p3-muted);
+}
+
+[data-ws-part="home.field"]:focus-within {
+  background-color: rgba(5, 13, 28, .98);
+  border-color: var(--skin-p3-blue);
+  box-shadow: inset 0 0 0 2px var(--skin-p3-blue), 0 0 0 2px rgba(14, 177, 244, .18);
+}
+
+[data-ws-part="home.field"] input:focus {
+  color: var(--skin-p3-cream);
+  outline-color: var(--skin-p3-blue);
+}
+
+[data-ws-part="home.identity"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(111, 227, 255, .34);
+  border-radius: 4px;
+  background-color: #0a1a33;
+  background-image: none;
+}
+
+[data-ws-part="home.identity"] * {
+  color: inherit;
+}
+
+[data-ws-part="home.identity-actions"] [data-ws-part="control"],
+[data-ws-part="home.identity-import.open"],
+[data-ws-part="home.identity-export.button"] {
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  font-weight: 800;
+  box-shadow: 0 2px 0 rgba(0, 2, 16, .58);
+}
+
+[data-ws-part="home.identity-actions"] [data-ws-part="control"]:hover,
+[data-ws-part="home.identity-import.open"]:hover,
+[data-ws-part="home.identity-export.button"]:hover {
+  background-color: var(--skin-p3-blue);
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+}
+/* 进入按钮：电光蓝实心 + 黑字（P3R 蓝条风格） */
+/* 进入按钮：电光蓝实心 + 黑字 + 4px（§4.2 唯一最终值；8.48:1）
+   hover/focus 转冷青（黑字 13.88:1）；不再有 #087fb8，也不再有白字子节点规则。 */
+[data-ws-part="home.connect"] {
+  background-color: var(--skin-p3-blue);
+  background-image: none;
+  color: var(--skin-p3-black);
+  border-color: rgba(111, 227, 255, .62);
+  border-radius: 4px;
+  font-weight: 900;
+  font-style: italic;
+  box-shadow: var(--skin-p3-hard-shadow);
+  text-shadow: none;
+  transition: background-color .1s linear, box-shadow .1s linear;
+  animation: p3-cta-breathe 3.6s ease-in-out infinite alternate;
+}
+
+[data-ws-part="home.connect"]:hover,
+[data-ws-part="home.connect"]:focus-visible {
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  background-color: var(--skin-p3-cyan);
+  background-image: none;
+  box-shadow: 0 0 0 2px rgba(111, 227, 255, .30), var(--skin-p3-hard-shadow);
+}
+
+[data-ws-part="home.security-note"] {
+  color: var(--skin-p3-muted);
+  font-weight: 600;
+}
+
+
+/* 访客计数条：深蓝信息面 + 细蓝边 + 青色图标（§4.2） */
+/* 访客计数条：深蓝信息面 + 4px（§4.2） */
+[data-ws-part="home.visitors"] {
+  background-color: rgba(6, 18, 38, .98);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .32);
+  border-radius: 4px;
+  font-weight: 800;
+  font-style: italic;
+  box-shadow: inset 0 1px 0 rgba(111, 227, 255, .08);
+}
+
+/* 装饰轨道环 → 细蓝线圆环 */
+[data-ws-part="home.visitors"] * {
+  background-color: transparent;
+  background-image: none;
+}
+
+[data-ws-part="home.visitors"] span {
+  border-color: var(--skin-p3-blue);
+  box-shadow: none;
+}
+
+/* 图标与星标：青色线描 */
+[data-ws-part="home.visitors"] svg,
+[data-ws-part="home.visitors"] svg * {
+  color: var(--skin-p3-cyan);
+  stroke: var(--skin-p3-cyan);
+  fill: none;
+}
+
+/* 文字：浅色；数字用青色强调 */
+[data-ws-part="home.visitors"] {
+  text-shadow: none;
+}
+
+[data-ws-part="home.content"],
+[data-ws-part="home.hero"] {
+  color: var(--skin-p3-cream);
+}
+
+[data-ws-part="home.hero.title"] {
+  color: var(--skin-p3-white);
+  font-weight: 900;
+  font-style: italic;
+  text-shadow: none;
+}
+
+[data-ws-part="home.hero.title"] em {
+  color: var(--skin-p3-cyan);
+  text-shadow: none;
+}
+
+[data-ws-part="home.features"] {
+  color: var(--skin-p3-cream);
+}
+
+/* 特性卡：深底 + 细蓝线边框 */
+/* 特性卡：深蓝信息面 + 4px（§4.2；三卡独立冷纹理见文件末 §4.2 层） */
+[data-ws-part="home.feature"] {
+  background-color: rgba(6, 18, 38, .98);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .32);
+  border-radius: 4px;
+  box-shadow: inset 0 1px 0 rgba(111, 227, 255, .08);
+}
+
+[data-ws-part="home.feature"] * {
+  color: inherit;
+}
+
+[data-ws-part="home.feature"] strong {
+  color: var(--skin-p3-white);
+  font-weight: 900;
+  font-style: italic;
+}
+
+
+/* 特性图标：线描风格（透明底 + 青色线条），不用实心白块 */
+[data-ws-part="home.feature"] > span:has(svg) {
+  background-color: transparent;
+  background-image: none;
+  color: var(--skin-p3-cyan);
+  border-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+[data-ws-part="home.feature"] > span:has(svg) svg,
+[data-ws-part="home.feature"] > span:has(svg) * {
+  color: var(--skin-p3-cyan);
+  stroke: var(--skin-p3-cyan);
+  fill: none;
+}
+
+/* 特性文字容器：透明底 + 亮色文字 */
+[data-ws-part="home.feature"] > span:not(:has(svg)) {
+  background-color: transparent;
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+[data-ws-part="home.feature"] > span:not(:has(svg)) b,
+[data-ws-part="home.feature"] > span:not(:has(svg)) strong {
+  color: var(--skin-p3-white);
+  font-weight: 900;
+  font-style: italic;
+}
+
+[data-ws-part="home.feature"] > span:not(:has(svg)) small {
+  color: #a8c8e2;
+  font-weight: 600;
+}
+
+[data-ws-part="home.footer"],
+[data-ws-part="home.footer"] * {
+  color: var(--skin-p3-muted);
+}
+
+/* ==================== 皮肤 / 语言菜单 ==================== */
+/* §6.1 菜单：深色不透明面板（alpha=1 的 --skin-p3-black）+ 8px */
+[data-ws-part="skin.menu"],
+[data-ws-part="language.menu"] {
+  background-color: var(--skin-p3-black);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .48);
+  border-radius: 8px;
+  box-shadow: 0 16px 36px rgba(0, 2, 16, .70), inset 0 1px 0 rgba(111, 227, 255, .10);
+}
+
+[data-ws-part="skin.option"],
+[data-ws-part="language.option"] {
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: transparent;
+  border-radius: 4px;
+  font-weight: 800;
+  font-style: italic;
+  transition: background-color .1s linear, color .1s linear;
+}
+
+[data-ws-part="skin.option"]:hover,
+[data-ws-part="language.option"]:hover,
+[data-ws-part="skin.option"][aria-selected="true"],
+[data-ws-part="language.option"][aria-selected="true"] {
+  background-color: var(--skin-p3-blue);
+  background-image: none;
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  box-shadow: none;
+  font-weight: 800;
+}
+
+[data-ws-part="skin.option"][aria-selected="true"] *,
+[data-ws-part="language.option"][aria-selected="true"] * {
+  color: var(--skin-p3-black);
+}
+
+/* ==================== 语音房间 ==================== */
+/* §5 外壳承载场景：房间图归 shell */
+[data-ws-part="voice.shell"] {
+  color: var(--skin-p3-cream);
+  background-color: var(--skin-p3-black);
+  background-image: linear-gradient(135deg, rgba(0, 2, 16, .58), rgba(14, 177, 244, .08)), url("assets/bg-room.jpg");
+  background-size: auto, cover;
+  background-position: center, 30% 20%;
+  background-repeat: no-repeat, no-repeat;
+}
+
+/* workspace 变近不透明前景面，不再兼作背景画布 */
+[data-ws-part="voice.workspace"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .28);
+  border-radius: 8px;
+  background-color: rgba(5, 13, 28, .96);
+  background-image: linear-gradient(145deg, rgba(111, 227, 255, .06), rgba(5, 13, 28, .96));
+  box-shadow: 0 16px 38px rgba(0, 2, 16, .62), inset 0 1px 0 rgba(111, 227, 255, .08);
+}
+/* 房间顶栏：细蓝下线 */
+[data-ws-part="voice.header"] {
+  background-color: rgba(5, 13, 28, .98);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .42);
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.header"] [data-ws-part="voice.breadcrumbs"],
+[data-ws-part="voice.header"] [data-ws-part="voice.header-actions"],
+[data-ws-part="voice.header"] [data-ws-part="voice.performance"] {
+  color: var(--skin-p3-cream);
+}
+
+[data-ws-part="voice.breadcrumbs"] {
+  color: var(--skin-p3-muted);
+  font-weight: 700;
+  font-style: italic;
+}
+
+[data-ws-part="voice.performance"] {
+  color: var(--skin-p3-cream);
+}
+
+[data-ws-part="voice.scroll"],
+[data-ws-part="voice.content"] {
+  background-color: transparent;
+  color: var(--skin-p3-cream);
+}
+
+[data-ws-part="voice.mobile-nav"] {
+  background-color: var(--skin-p3-ink);
+  background-image: none;
+  color: var(--skin-p3-muted);
+  border-color: rgba(14, 177, 244, .42);
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.mobile-nav"] [data-ws-part="control"] {
+  background-color: transparent;
+  background-image: none;
+  color: var(--skin-p3-muted);
+  border-color: transparent;
+  border-radius: 4px;
+  font-weight: 800;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.mobile-nav"] [data-ws-part="control"] * {
+  color: inherit;
+}
+
+[data-ws-part="voice.mobile-nav"] [data-ws-part="control"][aria-current="page"],
+[data-ws-part="voice.mobile-nav"] [data-ws-part="control"][aria-selected="true"] {
+  background-color: var(--skin-p3-blue);
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  box-shadow: inset 0 -2px 0 0 var(--skin-p3-cyan);
+}
+
+[data-ws-part="voice.mobile-nav"] [data-ws-part="control"][aria-current="page"] *,
+[data-ws-part="voice.mobile-nav"] [data-ws-part="control"][aria-selected="true"] * {
+  color: var(--skin-p3-black);
+}
+/* 语音活动区 */
+/* 活动区/成员面板/聊天/性能/屏幕分享设置：统一面板层（§5） */
+[data-ws-part="voice.activity"],
+[data-ws-part="voice.member-panel"],
+[data-ws-part="voice.chat"],
+[data-ws-part="voice.performance.panel"],
+[data-ws-part="voice.screen-share-settings"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .32);
+  border-radius: 8px;
+  background-color: rgba(6, 18, 38, .98);
+  background-image: linear-gradient(145deg, rgba(111, 227, 255, .08), rgba(6, 18, 38, .98));
+  box-shadow: 0 12px 30px rgba(0, 2, 16, .48), inset 0 1px 0 rgba(111, 227, 255, .10);
+}
+
+/* 装饰 artwork：透明径向渐变例外，不获得不透明底/实边/阴影 */
+[data-ws-part="voice.activity.artwork"] {
+  background-color: transparent;
+  background-image: radial-gradient(circle at 78% 22%, rgba(14, 177, 244, .12), transparent 36%), radial-gradient(circle at 18% 78%, rgba(111, 227, 255, .08), transparent 32%);
+  border-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.activity-heading"] {
+  color: var(--skin-p3-white);
+  font-weight: 900;
+  font-style: italic;
+  text-shadow: none;
+}
+
+/* ---- 频道分组 ---- */
+[data-ws-part="voice.channel-group"] {
+  background-color: rgba(7, 22, 43, .98);
+  background-image: none;
+  border-color: rgba(14, 177, 244, .26);
+  border-radius: 4px;
+  color: var(--skin-p3-cream);
+  box-shadow: none;
+}
+
+[data-ws-part="voice.channel-group"] * {
+  color: inherit;
+}
+
+/* 嵌套频道标题：4px/0 处理（不再另造 13px 子档） */
+[data-ws-part="voice.channel-group.heading"] {
+  background-color: rgba(10, 30, 58, .98);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .26);
+  border-radius: 4px 4px 0 0;
+  font-weight: 900;
+  font-style: italic;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.channel-group"] [data-ws-part="control"] {
+  color: var(--skin-p3-cream);
+  border-radius: 4px;   /* R7：收敛到四档体系（审查疑虑：0px 仅限装饰面/嵌套边角） */
+}
+
+[data-ws-part="voice.channel-group"] [data-ws-part="control"]:hover {
+  background-color: rgba(14, 177, 244, .18);
+  color: var(--skin-p3-white);
+  box-shadow: inset 2px 0 0 0 var(--skin-p3-blue);
+}
+
+[data-ws-part="voice.channel-group"] [data-ws-part="control"][aria-selected="true"],
+[data-ws-part="voice.channel-group"] [data-ws-part="control"][aria-current="true"],
+[data-ws-part="voice.channel-group"] [data-ws-part="control"][aria-pressed="true"] {
+  background-color: var(--skin-p3-blue);
+  color: var(--skin-p3-white);
+  border-color: var(--skin-p3-black);
+  font-weight: 800;
+  font-style: italic;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.channel-group"] [data-ws-part="control"][aria-selected="true"] *,
+[data-ws-part="voice.channel-group"] [data-ws-part="control"][aria-current="true"] * {
+  color: var(--skin-p3-white);
+}
+
+/* ---- 成员面板 ---- */
+[data-ws-part="voice.member-panel"] {
+  background-color: rgba(6, 18, 38, .98);
+  background-image: none;
+  border-color: rgba(14, 177, 244, .32);
+  border-radius: 8px;
+  color: var(--skin-p3-cream);
+}
+
+[data-ws-part="voice.member-panel"] * {
+  color: inherit;
+}
+
+[data-ws-part="voice.member-panel.search"] {
+  background-color: rgba(0, 2, 16, .98);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: rgba(111, 227, 255, .32);
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.member-panel.search"] input {
+  color: var(--skin-p3-cream);
+  background-color: transparent;
+}
+
+[data-ws-part="voice.member-panel.search"] input::placeholder {
+  color: var(--skin-p3-muted);
+}
+
+[data-ws-part="voice.member-panel.search"]:focus-within {
+  border-color: var(--skin-p3-blue);
+  box-shadow: inset 0 0 0 2px var(--skin-p3-blue);
+}
+
+[data-ws-part="voice.member-row"] {
+  background-color: rgba(7, 22, 43, .98);
+  border-color: rgba(14, 177, 244, .26);
+  border-radius: 4px;
+  color: var(--skin-p3-cream);
+  box-shadow: inset 3px 0 0 0 transparent;
+  transition: background-color .1s linear, box-shadow .1s linear;
+}
+
+[data-ws-part="voice.member-row"]:hover {
+  color: var(--skin-p3-cream);
+  background-color: rgba(14, 177, 244, .16);
+  border-color: rgba(111, 227, 255, .48);
+  box-shadow: inset 3px 0 0 0 var(--skin-p3-cyan);
+}
+
+[data-ws-part="voice.member-row"][data-ws-state="active"],
+[data-ws-part="voice.member-row"][aria-selected="true"] {
+  color: var(--skin-p3-cream);
+  background-color: rgba(14, 177, 244, .16);
+  border-color: rgba(111, 227, 255, .48);
+  box-shadow: inset 3px 0 0 0 var(--skin-p3-cyan);
+}
+
+[data-ws-part="voice.member"] {
+  background-color: rgba(7, 22, 43, .98);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .26);
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.members"] {
+  color: var(--skin-p3-cream);
+}
+
+[data-ws-part="voice.member.name"] {
+  color: var(--skin-p3-cream);
+  font-weight: 800;
+}
+
+[data-ws-part="voice.member.live-indicator"] {
+  color: var(--skin-p3-cyan);
+  box-shadow: none;
+}
+
+[data-ws-part="voice.member.avatar"],
+[data-ws-part="voice.member-row.avatar"],
+[data-ws-part="voice.member.avatar-wrap"] {
+  background-color: rgba(10, 30, 58, .98);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .34);
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.member.share-actions"] [data-ws-part="control"],
+[data-ws-part="voice.member.stop-share"] {
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  box-shadow: 0 2px 0 rgba(0, 2, 16, .58);
+}
+
+[data-ws-part="voice.member.stop-share"] {
+  color: var(--skin-p3-amber);
+  border-color: rgba(242, 184, 75, .44);
+}
+
+/* ---- 聊天 ---- */
+[data-ws-part="voice.chat"] {
+  background-color: rgba(6, 18, 38, .98);
+  background-image: none;
+  border-color: rgba(14, 177, 244, .32);
+  border-radius: 8px;
+  color: var(--skin-p3-cream);
+}
+
+[data-ws-part="voice.chat.heading"] {
+  color: var(--skin-p3-white);
+  font-weight: 900;
+  font-style: italic;
+}
+
+[data-ws-part="voice.chat.tabs"] {
+  border-color: var(--skin-p3-line);
+}
+
+[data-ws-part="voice.chat.tab"] {
+  background-color: rgba(0, 2, 16, .72);
+  color: var(--skin-p3-muted);
+  border-color: transparent;
+  border-radius: 4px;
+  font-weight: 800;
+  font-style: italic;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.chat.tab"][aria-selected="true"],
+[data-ws-part="voice.chat.tab"][data-ws-state="active"],
+[data-ws-part="voice.chat.tab"]:hover {
+  background-color: var(--skin-p3-blue);
+  background-image: none;
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  box-shadow: none;
+}
+
+[data-ws-part="voice.chat.tabs"] [data-ws-part="voice.chat.tab"][aria-selected="true"] *,
+[data-ws-part="voice.chat.tabs"] [data-ws-part="voice.chat.tab"][data-ws-state="active"] * {
+  color: var(--skin-p3-black);
+}
+
+[data-ws-part="voice.chat.message"] {
+  color: var(--skin-p3-cream);
+}
+
+/* 消息气泡：他人深色 6px / 本人 blue→cyan + 黑字（§5/§7） */
+/* 消息气泡：他人深色 6px / 本人 blue→cyan + 黑字 6px（§5/§7 唯一确立） */
+[data-ws-part="voice.chat.message-bubble"] {
+  background-color: rgba(7, 22, 43, .98);
+  background-image: linear-gradient(135deg, rgba(111, 227, 255, .08), rgba(7, 22, 43, .98));
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .30);
+  border-radius: 6px;
+  font-weight: 600;
+  box-shadow: 0 4px 12px rgba(0, 2, 16, .38), inset 0 1px 0 rgba(255, 255, 255, .10);
+}
+
+[data-ws-part="voice.chat.message"][data-ws-state="mine"] [data-ws-part="voice.chat.message-bubble"] {
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  background-color: var(--skin-p3-blue);
+  background-image: linear-gradient(115deg, var(--skin-p3-cyan), var(--skin-p3-blue));
+}
+
+[data-ws-part="voice.chat.empty"] {
+  color: var(--skin-p3-muted);
+  font-weight: 600;
+  font-style: italic;
+}
+
+[data-ws-part="voice.chat.messages"] {
+  color: var(--skin-p3-cream);
+}
+
+[data-ws-part="voice.chat.composer"] {
+  background-color: rgba(0, 2, 16, .98);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: rgba(111, 227, 255, .32);
+  border-radius: 4px;
+}
+
+[data-ws-part="voice.chat.composer"] input {
+  background-color: transparent;
+  color: var(--skin-p3-cream);
+  font-weight: 600;
+}
+
+[data-ws-part="voice.chat.composer"] input::placeholder {
+  color: var(--skin-p3-muted);
+}
+
+[data-ws-part="voice.chat.composer"] button[data-ws-part="control"] {
+  background-color: var(--skin-p3-blue);
+  background-image: none;
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  border-radius: 4px;
+  box-shadow: var(--skin-p3-hard-shadow);
+}
+
+/* ---- 音频控制坞 ---- */
+/* ---- 音频控制坞：alpha=1 实底（#050d1c）+ 6px（§5）---- */
+[data-ws-part="voice.audio-dock"] {
+  background-color: #050d1c;
+  background-image: linear-gradient(100deg, rgba(14, 177, 244, .10), rgba(5, 13, 28, 0) 58%);
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .48);
+  border-radius: 6px;
+  box-shadow: 0 12px 28px rgba(0, 2, 16, .72), inset 0 1px 0 rgba(111, 227, 255, .12);
+}
+
+[data-ws-part="voice.audio-dock.microphone-panel"],
+[data-ws-part="voice.audio-dock.output-panel"] {
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .48);
+  border-radius: 8px;
+  box-shadow: 0 16px 36px rgba(0, 2, 16, .64);
+}
+
+[data-ws-part="voice.audio-dock"] [data-ws-part="control"] {
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .34);
+  border-radius: 4px;
+  font-weight: 800;
+  box-shadow: none;
+  transition: background-color .1s linear, color .1s linear;
+}
+
+[data-ws-part="voice.audio-dock"] [data-ws-part="control"]:hover,
+[data-ws-part="voice.audio-dock"] [data-ws-part="control"]:focus-visible {
+  background-color: var(--skin-p3-blue);
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  box-shadow: 0 0 0 2px rgba(111, 227, 255, .28);
+}
+
+[data-ws-part="voice.audio-dock"] [data-ws-part="control"][aria-pressed="true"] {
+  background-color: var(--skin-p3-blue);
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  box-shadow: 0 0 0 2px var(--skin-p3-cyan);
+}
+
+[data-ws-part="voice.audio-dock"] [data-ws-part="control"] * {
+  color: inherit;
+}
+
+/* ---- 屏幕共享 ---- */
+[data-ws-part="voice.screen-player"] {
+  background-color: var(--skin-p3-black);
+  background-image: none;
+  border-color: rgba(14, 177, 244, .48);
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.screen-player.stage"],
+[data-ws-part="voice.screen-player.video"] {
+  color: var(--skin-p3-cream);
+  background-color: var(--skin-p3-black);
+  border-color: rgba(14, 177, 244, .48);
+  border-radius: 8px;
+}
+
+[data-ws-part="voice.screen-player.exit"],
+[data-ws-part="voice.screen-player.fullscreen"],
+[data-ws-part="voice.screen-player.volume"] {
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.screen-player.live"] {
+  background-color: var(--skin-p3-cyan);
+  background-image: none;
+  color: var(--skin-p3-black);
+  border-radius: 4px;
+  font-weight: 900;
+  font-style: italic;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.screen-player.placeholder"],
+[data-ws-part="voice.screen-player.viewers"],
+[data-ws-part="voice.screen-player.source"] {
+  color: var(--skin-p3-muted);
+  font-weight: 600;
+  font-style: italic;
+}
+
+[data-ws-part="voice.screen-player.placeholder"] {
+  color: var(--skin-p3-cream);
+  border-radius: 6px;
+  background-color: var(--skin-p3-panel);
+}
+
+[data-ws-part="voice.screen-player.viewer-avatar"] {
+  border-color: rgba(14, 177, 244, .34);
+  border-radius: 50%;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.screen-share-settings"] {
+  background-color: rgba(6, 18, 38, .98);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .32);
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.screen-share-settings.heading"] {
+  color: var(--skin-p3-cream);
+  font-weight: 900;
+}
+
+[data-ws-part="voice.screen-share-settings.note"] {
+  color: var(--skin-p3-muted);
+  font-style: italic;
+}
+
+[data-ws-part="voice.screen-share-settings.fields"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(111, 227, 255, .34);
+  border-radius: 4px;
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+}
+
+[data-ws-part="voice.screen-share-settings.actions"] [data-ws-part="control"] {
+  background-color: var(--skin-p3-blue);
+  background-image: none;
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  border-radius: 4px;
+  font-weight: 800;
+  box-shadow: var(--skin-p3-hard-shadow);
+}
+
+/* ---- 性能面板 ---- */
+[data-ws-part="voice.performance.panel"] {
+  background-color: rgba(6, 18, 38, .98);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .32);
+  border-radius: 8px;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.performance.metrics"],
+[data-ws-part="voice.performance.webrtc-stats"],
+[data-ws-part="voice.performance.route"] {
+  background-color: rgba(10, 30, 58, .92);
+  color: var(--skin-p3-muted);
+  border-color: rgba(14, 177, 244, .26);
+  border-radius: 4px;
+}
+
+[data-ws-part="voice.performance.status"] {
+  background-color: rgba(10, 30, 58, .92);
+  color: var(--skin-p3-amber);
+  border-color: rgba(14, 177, 244, .26);
+  border-radius: 4px;
+}
+
+[data-ws-part="voice.header"] [data-ws-part="control"] {
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  box-shadow: 0 2px 0 rgba(0, 2, 16, .58);
+}
+
+[data-ws-part="voice.header"] [data-ws-part="control"] * {
+  color: var(--skin-p3-cream);
+}
+
+[data-ws-part="voice.header"] [data-ws-part="control"]:hover,
+[data-ws-part="voice.header"] [data-ws-part="control"]:focus-visible {
+  background-color: var(--skin-p3-blue);
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  box-shadow: 0 0 0 2px rgba(111, 227, 255, .28), 0 2px 0 rgba(0, 2, 16, .58);
+}
+
+[data-ws-part="voice.header"] [data-ws-part="control"][aria-pressed="true"] {
+  background-color: var(--skin-p3-blue);
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  box-shadow: var(--skin-p3-hard-shadow);
+}
+
+[data-ws-part="voice.header"] [data-ws-part="skin.trigger"],
+[data-ws-part="voice.header"] [data-ws-part="language.trigger"] {
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  box-shadow: 0 2px 0 rgba(0, 2, 16, .58);
+}
+
+[data-ws-part="voice.header"] [data-ws-part="skin.trigger"] *,
+[data-ws-part="voice.header"] [data-ws-part="language.trigger"] * {
+  color: var(--skin-p3-cream);
+}
+
+[data-ws-part="voice.header"] [data-ws-part="skin.trigger"]:hover,
+[data-ws-part="voice.header"] [data-ws-part="language.trigger"]:hover {
+  background-color: var(--skin-p3-blue);
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+}
+
+[data-ws-part="voice.header"] [data-ws-part="skin.trigger"]:hover *,
+[data-ws-part="voice.header"] [data-ws-part="language.trigger"]:hover * {
+  color: var(--skin-p3-black);
+}
+
+/* ==================== demo 页 ==================== */
+/* （原 [data-ws-page="demo"] 整体规则无效：重写后 root 不能匹配自身后代；root 底色已由 :root 提供） */
+
+[data-ws-part="demo.header"] {
+  background-color: var(--skin-p3-ink);
+  background-image: none;
+  color: var(--skin-p3-white);
+  border-color: var(--skin-p3-blue);
+}
+
+[data-ws-part="demo.hero"],
+[data-ws-part="demo.main"],
+[data-ws-part="demo.channels"],
+[data-ws-part="demo.voice-card"] {
+  background-color: rgba(6, 18, 38, .90);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-blue);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+[data-ws-part="demo.hero"] *,
+[data-ws-part="demo.main"] *,
+[data-ws-part="demo.channels"] *,
+[data-ws-part="demo.voice-card"] * {
+  color: inherit;
+}
+
+[data-ws-part="demo.avatar"] {
+  border-color: var(--skin-p3-blue);
+  border-radius: 0;
+  box-shadow: none;
+}
+
+[data-ws-part="demo.chat.send"] {
+  background-color: var(--skin-p3-blue);
+  background-image: none;
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  border-radius: 4px;
+  font-weight: 900;
+  font-style: italic;
+  box-shadow: none;
+}
+
+[data-ws-part="demo.actions"] [data-ws-part="control"] {
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+/* ==================================================================
+   控件兜底 —— 宿主内置浅色 token 的高特异性覆盖
+   （数值与 §6.1 完全一致：深面 --skin-p3-panel + cream 字 + 4px 圆角）
+   ================================================================== */
+[data-ws-part="voice.member-panel"] button[data-ws-part="control"],
+[data-ws-part="voice.member-row"] button[data-ws-part="control"],
+[data-ws-part="voice.members"] [data-ws-part="voice.member"] button[data-ws-part="control"] {
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  font-weight: 800;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.member-panel"] button[data-ws-part="control"] *,
+[data-ws-part="voice.member-row"] button[data-ws-part="control"] *,
+[data-ws-part="voice.members"] [data-ws-part="voice.member"] button[data-ws-part="control"] * {
+  color: inherit;
+}
+
+[data-ws-part="voice.member-panel"] button[data-ws-part="control"]:hover,
+[data-ws-part="voice.member-row"] button[data-ws-part="control"]:hover,
+[data-ws-part="voice.members"] [data-ws-part="voice.member"] button[data-ws-part="control"]:hover {
+  background-color: var(--skin-p3-blue);
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  box-shadow: none;
+}
+
+[data-ws-part="voice.member-panel"] button[data-ws-part="control"][aria-pressed="true"],
+[data-ws-part="voice.member-row"] button[data-ws-part="control"][aria-pressed="true"],
+[data-ws-part="voice.members"] [data-ws-part="voice.member"] button[data-ws-part="control"][aria-pressed="true"] {
+  background-color: var(--skin-p3-blue);
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  box-shadow: none;
+}
+
+[data-ws-part="voice.members"] [data-ws-part="voice.member"] [data-ws-part="voice.member.share-actions"] [data-ws-part="control"],
+[data-ws-part="voice.members"] [data-ws-part="voice.member"] [data-ws-part="voice.member.share-actions"] [data-ws-part="control"] * {
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  font-weight: 800;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.members"] [data-ws-part="voice.member"] [data-ws-part="voice.member.share-actions"] [data-ws-part="control"]:hover,
+[data-ws-part="voice.members"] [data-ws-part="voice.member"] [data-ws-part="voice.member.share-actions"] [data-ws-part="control"]:hover * {
+  background-color: var(--skin-p3-blue);
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+}
+
+[data-ws-part="voice.member-panel"] [data-ws-part="voice.member-panel.heading"] {
+  color: var(--skin-p3-cream);
+  font-weight: 900;
+  font-style: italic;
+}
+
+[data-ws-part="voice.member-panel"] [data-ws-part="voice.member-panel.heading"] [data-ws-part="control"],
+[data-ws-part="voice.member-panel"] [data-ws-part="voice.member-panel.heading"] [data-ws-part="control"] * {
+  background-color: var(--skin-p3-blue);
+  background-image: none;
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  border-radius: 4px;
+  font-weight: 800;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.member-panel"] input[data-ws-part="control"],
+[data-ws-part="voice.member-panel.search"] input {
+  background-color: transparent;
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: transparent;
+  font-weight: 600;
+}
+
+[data-ws-part="voice.member-panel"] input[data-ws-part="control"]::placeholder,
+[data-ws-part="voice.member-panel.search"] input::placeholder {
+  color: var(--skin-p3-muted);
+}
+
+/* 嵌套频道标题：4px/0 处理（不再另造 13px 子档） */
+[data-ws-part="voice.member-panel"] [data-ws-part="voice.channel-group.heading"],
+[data-ws-part="voice.member-panel"] [data-ws-part="voice.channel-group.heading"] * {
+  background-color: rgba(10, 30, 58, .98);
+  background-image: none;
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .26);
+  border-radius: 4px 4px 0 0;
+  font-weight: 900;
+  font-style: italic;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.member-panel"] [data-ws-part="voice.channel-group.heading"][aria-current="page"],
+[data-ws-part="voice.member-panel"] [data-ws-part="voice.channel-group.heading"][aria-selected="true"] {
+  background-color: var(--skin-p3-blue);
+  color: var(--skin-p3-black);
+}
+
+[data-ws-part="voice.shell"] input,
+[data-ws-part="voice.shell"] textarea,
+[data-ws-part="voice.shell"] select {
+  background-color: var(--skin-p3-panel);
+  color: var(--skin-p3-cream);
+  border-color: rgba(111, 227, 255, .34);
+}
+
+[data-ws-part="voice.shell"] input::placeholder,
+[data-ws-part="voice.shell"] textarea::placeholder {
+  color: var(--skin-p3-muted);
+}
+
+[data-ws-part="control"]:focus-visible,
+[data-ws-part="skin.trigger"]:focus-visible,
+[data-ws-part="language.trigger"]:focus-visible {
+  outline-color: var(--skin-p3-accent);
+  outline-offset: 2px;
+}
+
+[data-ws-part="control"]:disabled {
+  opacity: .45;
+}
+
+[data-ws-part="control"][aria-pressed="true"] *,
+[data-ws-part="control"][aria-selected="true"] * {
+  color: inherit;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-ws-part="control"],
+  [data-ws-part="home.connect"],
+  [data-ws-part="voice.member-row"] {
+    transition: none;
+  }
+}
+
+/* ==================================================================
+   对比度兜底（数值统一到 §4.1 token：底 #000210 / cream #e6f3fb / muted #8fb4d4）
+   ================================================================== */
+[data-ws-part="home.footer"],
+[data-ws-part="home.footer"] * {
+  background-color: transparent;
+  background-image: none;
+  color: var(--skin-p3-muted);
+  border-color: var(--skin-p3-line);
+}
+
+[data-ws-part="home.footer"] [data-ws-part="control"] {
+  background-color: transparent;
+  background-image: none;
+  color: var(--skin-p3-muted);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+[data-ws-part="home.footer"] [data-ws-part="control"]:hover {
+  background-color: var(--skin-p3-blue);
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+}
+
+[data-ws-part="home.visitors"] * {
+  color: inherit;
+  background-color: transparent;
+  background-image: none;
+}
+
+/* 成员行内状态文字：深底上统一用 muted */
+[data-ws-part="voice.member-row"] [data-ws-part="voice.member.status"] {
+  color: var(--skin-p3-muted);
+  font-weight: 600;
+}
+
+
+/* ===== 装饰平面（§5：透明径向渐变例外，不得有不透明底/实边/阴影）===== */
+[data-ws-part="voice.activity.artwork"] {
+  background-color: transparent;
+  background-image: radial-gradient(circle at 78% 22%, rgba(14, 177, 244, .12), transparent 36%), radial-gradient(circle at 18% 78%, rgba(111, 227, 255, .08), transparent 32%);
+  border-color: transparent;
+  border-radius: 0;
+  box-shadow: none;
+  opacity: 1;
+}
+
+
+/* ===== 移动端成员控制条（无专属 data-ws-part，靠位置命中）===== */
+[data-ws-part="voice.member-panel"] > div:last-child,
+[data-ws-part="voice.member-panel"] > *:last-child {
+  background-color: var(--skin-p3-ink);
+  background-image: none;
+  color: inherit;
+  border-color: rgba(14, 177, 244, .26);
+  border-radius: 4px;
+  box-shadow: none;
+}
+
+
+[data-ws-part="app"] {
+  background-color: var(--skin-p3-black);
+  background-image: none;
+  color: var(--skin-p3-cream);
+}
+
+/* 页面容器层：显式深色，避免继承内置浅色 */
+[data-ws-part="home"],
+[data-ws-part="voice.shell"],
+[data-ws-part="voice.workspace"],
+[data-ws-part="voice.content"],
+[data-ws-part="voice.scroll"],
+
+[data-ws-part="voice.content"],
+[data-ws-part="voice.scroll"] {
+  background-color: transparent;
+}
+
+/* 通用按钮兜底：内置 .primary-button 等 class 会带浅色/深绿底 */
+[data-ws-part="control"] {
+  color-scheme: dark;
+  border-color: var(--skin-p3-line);
+}
+
+[data-ws-part="control"][data-ws-control-kind="button"] {
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+  color: var(--skin-p3-cream);
+}
+
+
+/* ==================================================================
+   按 GPT 设计评审修复（P0 → P2）
+   ================================================================== */
+
+/* ---- P0-1 昵称输入：已并入 §4.2 单一字段规则（旧玻璃/浅描边版本删除）---- */
+/* ---- P0-2 主按钮：已并入 §4.2（白字与 #087fb8 版本删除，见 §9 该行）---- */
+/* ---- P0-2b 卡片内辅助文字：已并入 §4.2 muted/cream 规则 ---- */
+/* ---- P1-4 玻璃拟态：已并入 §4.2 主卡（.96 玻璃 + 10px）---- */
+
+
+/* ===== GPT 复审第 3 轮修正（半径已并入 §3.3 四档；焦点态保留）===== */
+/* R2 昵称框焦点态：2px 高对比描边 */
+[data-ws-part="home.field"]:focus-within {
+  border-color: #0eb1f4;
+  box-shadow: inset 0 0 0 2px #0eb1f4;
+}
+
+/* 其余输入类控件焦点态统一 */
+[data-ws-part="voice.member-panel.search"]:focus-within,
+[data-ws-part="voice.chat.composer"]:focus-within,
+[data-ws-part="voice.member-panel"] input[data-ws-part="control"]:focus {
+  border-color: #0eb1f4;
+  box-shadow: inset 0 0 0 2px #0eb1f4;
+}
+
+
+/* 品牌 logo：仅在本地皮肤下转色（不动原图，不影响其他主题） */
+[data-ws-part="home.brand"] > img {
+  filter: hue-rotate(175deg) saturate(2.0) brightness(1.05);
+}
+
+/* 兜底：任何位于 brand 内的图片元素 */
+[data-ws-part="home.brand"] img {
+  filter: hue-rotate(175deg) saturate(2.0) brightness(1.05);
+}
+
+
+/* ===== 悬浮音量面板：本体已并入 §5（alpha=1 实底 + 8px）；下列内部件保留 ===== */
+[data-ws-part="voice.audio-dock.microphone-panel"] strong,
+[data-ws-part="voice.audio-dock.output-panel"] strong {
+  color: var(--skin-p3-cyan);
+}
+
+[data-ws-part="voice.audio-dock.microphone-panel"] span,
+[data-ws-part="voice.audio-dock.output-panel"] span {
+  color: var(--skin-p3-muted);
+}
+
+/* 3) 分隔线（麦克风面板第 2 个 div；输出面板无此元素） */
+[data-ws-part="voice.audio-dock.microphone-panel"] > div:nth-of-type(2) {
+  background-color: var(--skin-p3-line);
+}
+
+/* 4) 滑块：内置青绿轨道 → 微调向蓝（保留 JS 进度填充） */
+[data-ws-part="voice.audio-dock.microphone-panel"] input[type="range"],
+[data-ws-part="voice.audio-dock.output-panel"] input[type="range"] {
+  filter: hue-rotate(22deg) saturate(1.35);
+}
+
+/* 5) 降噪开关：深蓝底 + 蓝选中 */
+[data-ws-part="voice.audio-dock.microphone-panel"] label input {
+  border-color: var(--skin-p3-line);
+  background-color: var(--skin-p3-ink);
+}
+
+[data-ws-part="voice.audio-dock.microphone-panel"] label input:checked {
+  border-color: var(--skin-p3-blue);
+  background-color: var(--skin-p3-blue);
+}
+
+[data-ws-part="voice.audio-dock.microphone-panel"] label input::before {
+  background-color: var(--skin-p3-muted);
+}
+
+[data-ws-part="voice.audio-dock.microphone-panel"] label input:checked::before {
+  background-color: var(--skin-p3-black);
+}
+
+
+/* ======== P35升级补丁 03 | 半径分级：10/8/6/4 四档决策已吸收进 §3.3 唯一 radius map ======== */
+
+/* ======== P35升级补丁 04 | 聊天气泡冷暖分层：已确立在 §5/§7（6px 双态） ======== */
+
+
+/* ======== P35升级补丁 05 | 旧背景扫光与 2.8s speaking 快闪已替换为 §7.2 慢速阴影/滤镜呼吸 ======== */
+
+/* ======== P35升级补丁 06 | 钩子覆盖意图保留；dialog/backdrop 实底化见 §6.1 层 ======== */
+
+
+/* ======== P35升级补丁 07 | 宿主深层文字修复（评审 R1 复验） ======== */
+/* 宿主为浅色主题硬编码的深色文字节点在深色皮肤上不可读
+   （实测：聊天标题 1.25:1、面包屑 1.48:1、消息作者 1.94:1、说话状态 4.23:1）。
+   这些节点是宿主 class 规则的直接目标（沙箱禁用 class 选择器），
+   这里用公开钩子 + 元素/属性选择器提升特异性覆盖。 */
+
+[data-ws-part="voice.breadcrumbs"] strong {
+  color: var(--skin-p3-cream);
+}
+
+[data-ws-part="voice.chat.heading"] h2 {
+  color: var(--skin-p3-white);
+}
+
+[data-ws-part="voice.chat.message"] strong,
+[data-ws-part="voice.chat.message-body"] strong {
+  color: var(--skin-p3-cream);
+}
+
+[data-ws-part="voice.member"][data-ws-state="speaking"] span[data-ws-part="voice.member.status"] {
+  color: #4ade80;
+}
+
+
+/* ==================================================================
+   P3 最终规范层（追加区）—— REFACTOR-SPEC-P3 §4.2 / §5 / §6.1 / §6.2 /
+   §2.1 / §7 / §7.2 逐节转写；本区为唯一最终值来源。
+   位置说明：按委托人指令追加于 P35-07 之后；P35-07 原样保留在其前区域。
+   特异性说明：本区不含针对 P35-07 四节点（breadcrumbs strong / chat.heading h2 /
+   chat.message strong / member[speaking] status）的同值或更高特异性文字规则，
+   故不会重新暴露宿主硬编码色（见 §8 与 §11 风险条）。
+   ================================================================== */
+
+/* ==================== §4.2 首页建议层 ==================== */
+[data-ws-part="home"] {
+  color: var(--skin-p3-cream);
+  background-color: var(--skin-p3-black);
+  background-image: radial-gradient(ellipse at 78% 20%, rgba(14, 177, 244, .14), transparent 38%), linear-gradient(100deg, rgba(0, 2, 16, .98) 0%, rgba(0, 2, 16, .94) 38%, rgba(0, 2, 16, .52) 66%, rgba(0, 2, 16, .20) 100%), url("assets/bg.jpg");
+  background-size: auto, auto, cover;
+  background-position: center, center, 24% 30%;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+}
+
+[data-ws-part="home.header"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .42);
+  border-radius: 8px;
+  background-color: rgba(5, 13, 28, .96);
+  box-shadow: 0 10px 28px rgba(0, 2, 16, .52), inset 0 1px 0 rgba(111, 227, 255, .12);
+  backdrop-filter: blur(10px) saturate(1.08);
+}
+
+[data-ws-part="home.brand"] {
+  color: var(--skin-p3-cream);
+  text-shadow: 2px 2px 0 rgba(14, 177, 244, .44);
+}
+
+[data-ws-part="home.hero.title"] { color: var(--skin-p3-white); text-shadow: 2px 2px 0 rgba(14, 177, 244, .42); }
+
+[data-ws-part="home.hero.description"],
+[data-ws-part="home.join-description"] { color: var(--skin-p3-muted); }
+
+[data-ws-part="home.hero.eyebrow"] { color: var(--skin-p3-cyan); }
+
+[data-ws-part="home.gateway-status"] { color: var(--skin-p3-amber); }
+
+[data-ws-part="home.join-card"] {
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-glass-edge);
+  border-radius: 10px;
+  background-color: var(--skin-p3-glass);
+  background-image: linear-gradient(135deg, var(--skin-p3-glass-sheen), rgba(14, 177, 244, .04));
+  box-shadow: 0 18px 42px var(--skin-p3-glass-depth), inset 0 1px 0 rgba(255, 255, 255, .14), inset 0 0 0 1px rgba(14, 177, 244, .18);
+  backdrop-filter: blur(10px) saturate(1.08);
+}
+
+[data-ws-part="home.join-title"] { color: var(--skin-p3-white); font-weight: 900; }
+
+[data-ws-part="home.field"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(111, 227, 255, .38);
+  border-radius: 4px;
+  background-color: rgba(5, 13, 28, .98);
+  background-image: none;
+}
+
+[data-ws-part="home.field"] input { color: var(--skin-p3-cream); background-color: transparent; }
+
+[data-ws-part="home.field"] input::placeholder { color: var(--skin-p3-muted); }
+
+[data-ws-part="home.field"]:focus-within {
+  border-color: var(--skin-p3-blue);
+  box-shadow: inset 0 0 0 2px var(--skin-p3-blue), 0 0 0 2px rgba(14, 177, 244, .18);
+}
+
+[data-ws-part="home.field-label"] { color: var(--skin-p3-muted); font-weight: 800; }
+
+[data-ws-part="home.connect"] {
+  color: var(--skin-p3-black);
+  border-color: rgba(111, 227, 255, .62);
+  border-radius: 4px;
+  background-color: var(--skin-p3-blue);
+  background-image: none;
+  box-shadow: var(--skin-p3-hard-shadow);
+  font-weight: 900;
+  text-shadow: none;
+}
+
+[data-ws-part="home.connect"]:hover,
+[data-ws-part="home.connect"]:focus-visible {
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  background-color: var(--skin-p3-cyan);
+  box-shadow: 0 0 0 2px rgba(111, 227, 255, .30), var(--skin-p3-hard-shadow);
+}
+
+[data-ws-part="home.security-note"],
+[data-ws-part="home.footer"] { color: var(--skin-p3-muted); }
+
+[data-ws-part="home.feature"],
+[data-ws-part="home.visitors"],
+[data-ws-part="home.server-history.item"],
+[data-ws-part="home.server-history.group"],
+[data-ws-part="home.server-history.select"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .32);
+  border-radius: 4px;
+  background-color: rgba(6, 18, 38, .98);
+  box-shadow: inset 0 1px 0 rgba(111, 227, 255, .08);
+}
+
+[data-ws-part="home.server-history.select"][aria-selected="true"] {
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  background-color: var(--skin-p3-blue);
+}
+
+/* §4.2 功能卡三卡独立冷纹理（素材未批准时的回退；不复用单一图片） */
+[data-ws-part="home.features"] > [data-ws-part="home.feature"]:nth-child(1) {
+  background-image: radial-gradient(circle at 18% 30%, rgba(111, 227, 255, .12), transparent 42%), linear-gradient(145deg, rgba(14, 177, 244, .12), rgba(6, 18, 38, .96));
+}
+
+[data-ws-part="home.features"] > [data-ws-part="home.feature"]:nth-child(2) {
+  background-image: repeating-linear-gradient(135deg, rgba(14, 177, 244, .08) 0 1px, transparent 1px 12px), linear-gradient(145deg, rgba(6, 18, 38, .92), rgba(5, 13, 28, .98));
+}
+
+[data-ws-part="home.features"] > [data-ws-part="home.feature"]:nth-child(3) {
+  background-image: radial-gradient(circle at 80% 24%, rgba(14, 177, 244, .12), transparent 36%), radial-gradient(circle at 18% 80%, rgba(111, 227, 255, .08), transparent 30%), linear-gradient(145deg, rgba(6, 18, 38, .92), rgba(5, 13, 28, .98));
+}
+
+/* ==================== §5 语音页 ==================== */
+[data-ws-part="voice.shell"] {
+  color: var(--skin-p3-cream);
+  background-color: var(--skin-p3-black);
+  background-image: linear-gradient(135deg, rgba(0, 2, 16, .58), rgba(14, 177, 244, .08)), url("assets/bg-room.jpg");
+  background-size: auto, cover;
+  background-position: center, 30% 20%;
+  background-repeat: no-repeat, no-repeat;
+}
+
+[data-ws-part="voice.workspace"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .28);
+  border-radius: 8px;
+  background-color: rgba(5, 13, 28, .96);
+  background-image: linear-gradient(145deg, rgba(111, 227, 255, .06), rgba(5, 13, 28, .96));
+  box-shadow: 0 16px 38px rgba(0, 2, 16, .62), inset 0 1px 0 rgba(111, 227, 255, .08);
+}
+
+[data-ws-part="voice.header"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .42);
+  border-radius: 8px;
+  background-color: rgba(5, 13, 28, .98);
+}
+
+[data-ws-part="voice.activity.artwork"] {
+  background-color: transparent;
+  background-image: radial-gradient(circle at 78% 22%, rgba(14, 177, 244, .12), transparent 36%), radial-gradient(circle at 18% 78%, rgba(111, 227, 255, .08), transparent 32%);
+  border-color: transparent;
+  box-shadow: none;
+}
+
+[data-ws-part="voice.activity"],
+[data-ws-part="voice.member-panel"],
+[data-ws-part="voice.chat"],
+[data-ws-part="voice.performance.panel"],
+[data-ws-part="voice.screen-share-settings"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .32);
+  border-radius: 8px;
+  background-color: rgba(6, 18, 38, .98);
+  background-image: linear-gradient(145deg, rgba(111, 227, 255, .08), rgba(6, 18, 38, .98));
+  box-shadow: 0 12px 30px rgba(0, 2, 16, .48), inset 0 1px 0 rgba(111, 227, 255, .10);
+}
+
+[data-ws-part="voice.activity-heading"],
+[data-ws-part="voice.channel-group.heading"],
+[data-ws-part="voice.chat.heading"],
+[data-ws-part="voice.member-panel.heading"],
+[data-ws-part="voice.screen-share-settings.heading"] {
+  color: var(--skin-p3-cream);
+  font-weight: 900;
+}
+
+[data-ws-part="voice.member-panel.search"],
+[data-ws-part="voice.chat.composer"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(111, 227, 255, .32);
+  border-radius: 4px;
+  background-color: rgba(0, 2, 16, .98);
+}
+
+[data-ws-part="voice.member-panel.search"] input,
+[data-ws-part="voice.chat.composer"] input { color: var(--skin-p3-cream); background-color: transparent; }
+
+[data-ws-part="voice.member-panel.search"] input::placeholder,
+[data-ws-part="voice.chat.composer"] input::placeholder { color: var(--skin-p3-muted); }
+
+[data-ws-part="voice.screen-share-settings.fields"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(111, 227, 255, .34);
+  border-radius: 4px;
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+}
+
+[data-ws-part="voice.screen-share-settings.fields"]:focus-within {
+  border-color: var(--skin-p3-blue);
+  box-shadow: inset 0 0 0 2px var(--skin-p3-blue);
+}
+
+[data-ws-part="voice.channel-group"],
+[data-ws-part="voice.member"],
+[data-ws-part="voice.member-row"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .26);
+  border-radius: 4px;
+  background-color: rgba(7, 22, 43, .98);
+}
+
+[data-ws-part="voice.member.avatar"],
+[data-ws-part="voice.member-row.avatar"],
+[data-ws-part="voice.member.avatar-wrap"] { border-radius: 4px; }
+
+[data-ws-part="voice.member.name"] { color: var(--skin-p3-cream); font-weight: 800; }
+
+[data-ws-part="voice.member.status"],
+[data-ws-part="voice.members.empty"],
+[data-ws-part="voice.performance.metrics"],
+[data-ws-part="voice.performance.route"],
+[data-ws-part="voice.performance.webrtc-stats"] { color: var(--skin-p3-muted); }
+
+[data-ws-part="voice.member.live-indicator"],
+[data-ws-part="voice.member.share-actions"] { color: var(--skin-p3-cyan); }
+
+[data-ws-part="voice.member.stop-share"] { color: var(--skin-p3-amber); border-color: rgba(242, 184, 75, .44); border-radius: 4px; }
+
+[data-ws-part="voice.chat.tab"] { color: var(--skin-p3-muted); border-radius: 4px; background-color: rgba(0, 2, 16, .72); }
+
+[data-ws-part="voice.chat.message-bubble"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .30);
+  border-radius: 6px;
+  background-color: rgba(7, 22, 43, .98);
+  background-image: linear-gradient(135deg, rgba(111, 227, 255, .08), rgba(7, 22, 43, .98));
+  box-shadow: 0 4px 12px rgba(0, 2, 16, .38), inset 0 1px 0 rgba(255, 255, 255, .10);
+}
+
+[data-ws-part="voice.chat.message"][data-ws-state="mine"] [data-ws-part="voice.chat.message-bubble"] {
+  color: var(--skin-p3-black);
+  border-color: rgba(111, 227, 255, .62);
+  background-color: var(--skin-p3-blue);
+  background-image: linear-gradient(115deg, var(--skin-p3-cyan), var(--skin-p3-blue));
+}
+
+[data-ws-part="voice.chat.empty"] { color: var(--skin-p3-muted); }
+
+[data-ws-part="voice.audio-dock"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .48);
+  border-radius: 6px;
+  background-color: #050d1c;
+  background-image: linear-gradient(100deg, rgba(14, 177, 244, .10), rgba(5, 13, 28, 0) 58%);
+  box-shadow: 0 12px 28px rgba(0, 2, 16, .72), inset 0 1px 0 rgba(111, 227, 255, .12);
+}
+
+[data-ws-part="voice.audio-dock.microphone"],
+[data-ws-part="voice.audio-dock.output"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .34);
+  border-radius: 4px;
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+}
+
+[data-ws-part="voice.audio-dock.microphone-panel"],
+[data-ws-part="voice.audio-dock.output-panel"],
+[data-ws-part="voice.audio-settings"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .48);
+  border-radius: 8px;
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+  box-shadow: 0 16px 36px rgba(0, 2, 16, .64);
+}
+
+[data-ws-part="voice.audio-dock.microphone-panel"] strong,
+[data-ws-part="voice.audio-dock.output-panel"] strong { color: var(--skin-p3-cyan); }
+
+[data-ws-part="voice.audio-status"],
+[data-ws-part="voice.connection-status"] { color: var(--skin-p3-amber); }
+
+[data-ws-part="voice.performance.status"] { color: var(--skin-p3-amber); }
+
+[data-ws-part="voice.screen-player.stage"],
+[data-ws-part="voice.screen-player.video"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .48);
+  border-radius: 8px;
+  background-color: #000210;
+}
+
+[data-ws-part="voice.screen-player.placeholder"] { color: var(--skin-p3-cream); border-radius: 6px; background-color: var(--skin-p3-panel); }
+
+[data-ws-part="voice.screen-player.live"] { color: var(--skin-p3-black); border-radius: 4px; background-color: var(--skin-p3-cyan); }
+
+[data-ws-part="voice.screen-player.controls"],
+[data-ws-part="voice.whisper-strip"],
+[data-ws-part="voice.context-menu"],
+[data-ws-part="voice.context-menu.move-submenu"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .42);
+  border-radius: 8px;
+  background-color: var(--skin-p3-panel);
+}
+
+[data-ws-part="voice.context-menu.header"] { color: var(--skin-p3-cream); font-weight: 800; }
+
+[data-ws-part="voice.screen-share-error"] { color: var(--skin-p3-cream); border-color: rgba(242, 184, 75, .58); border-radius: 8px; background-color: #0a1a33; background-image: none; }
+
+[data-ws-part="voice.member-panel.channels"],
+[data-ws-part="voice.member-row.flags"],
+[data-ws-part="voice.member-row.volume"],
+[data-ws-part="voice.mobile-more"],
+[data-ws-part="voice.poke"],
+[data-ws-part="voice.chat.event"],
+[data-ws-part="voice.chat.status"],
+[data-ws-part="voice.chat.message-avatar"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .30);
+  background-color: rgba(7, 22, 43, .98);
+}
+
+[data-ws-part="voice.chat.message-avatar"] { border-radius: 50%; }
+
+/* ==================== §6.1 通用 control 与语言/皮肤菜单 ==================== */
+[data-ws-part="control"] {
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+  box-shadow: 0 2px 0 rgba(0, 2, 16, .58);
+}
+
+[data-ws-part="control"]:hover,
+[data-ws-part="control"]:focus-visible,
+[data-ws-part="control"][aria-pressed="true"] {
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  background-color: var(--skin-p3-blue);
+  box-shadow: 0 0 0 2px rgba(111, 227, 255, .28), 0 2px 0 rgba(0, 2, 16, .58);
+}
+
+[data-ws-part="control"]:disabled { color: var(--skin-p3-muted); opacity: .56; }
+
+[data-ws-part="skin.trigger"],
+[data-ws-part="language.trigger"] {
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+}
+
+[data-ws-part="skin.menu"],
+[data-ws-part="language.menu"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .48);
+  border-radius: 8px;
+  background-color: var(--skin-p3-black);
+  background-image: none;
+  box-shadow: 0 16px 36px rgba(0, 2, 16, .70), inset 0 1px 0 rgba(111, 227, 255, .10);
+}
+
+[data-ws-part="skin.option"],
+[data-ws-part="language.option"] {
+  color: var(--skin-p3-cream);
+  border-color: transparent;
+  border-radius: 4px;
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+}
+
+[data-ws-part="skin.option"]:hover,
+[data-ws-part="language.option"]:hover,
+[data-ws-part="skin.option"][aria-selected="true"],
+[data-ws-part="language.option"][aria-selected="true"] {
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  background-color: var(--skin-p3-blue);
+  font-weight: 800;
+}
+
+[data-ws-part="voice.favorite-servers.dialog-backdrop"],
+[data-ws-part="voice.context-menu-backdrop"] {
+  background-color: rgba(0, 2, 16, .76);
+  backdrop-filter: blur(5px);
+}
+
+[data-ws-part="voice.favorite-servers.dialog"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .52);
+  border-radius: 8px;
+  background-color: var(--skin-p3-black);
+  background-image: linear-gradient(145deg, rgba(111, 227, 255, .08), rgba(0, 2, 16, 0));
+  box-shadow: 0 20px 48px rgba(0, 2, 16, .76), 0 0 0 1px rgba(14, 177, 244, .12);
+}
+
+[data-ws-part="voice.favorite-servers.dialog.header"] { color: var(--skin-p3-cream); font-weight: 900; }
+
+[data-ws-part="voice.favorite-servers.dialog.hint"] { color: var(--skin-p3-muted); }
+
+[data-ws-part="voice.favorite-servers.dialog.field"],
+[data-ws-part="voice.favorite-servers.dialog.input"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(111, 227, 255, .34);
+  border-radius: 4px;
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+}
+
+[data-ws-part="voice.favorite-servers.dialog.input"]:focus {
+  border-color: var(--skin-p3-blue);
+  box-shadow: inset 0 0 0 2px var(--skin-p3-blue), 0 0 0 2px rgba(14, 177, 244, .18);
+}
+
+[data-ws-part="voice.favorite-servers.add"],
+[data-ws-part="voice.favorite-servers.strip.add"],
+[data-ws-part="voice.favorite-servers.dialog.submit"] {
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  border-radius: 4px;
+  background-color: var(--skin-p3-blue);
+  box-shadow: var(--skin-p3-hard-shadow);
+  font-weight: 900;
+}
+
+[data-ws-part="voice.favorite-servers.add"]:hover,
+[data-ws-part="voice.favorite-servers.strip.add"]:hover,
+[data-ws-part="voice.favorite-servers.dialog.submit"]:hover {
+  color: var(--skin-p3-black);
+  background-color: var(--skin-p3-cyan);
+}
+
+[data-ws-part="voice.favorite-servers.dialog.cancel"],
+[data-ws-part="voice.favorite-servers.dialog.close"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .32);
+  border-radius: 4px;
+  background-color: var(--skin-p3-panel);
+}
+
+[data-ws-part="voice.favorite-servers.rail"],
+[data-ws-part="voice.favorite-servers.strip"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .34);
+  border-radius: 8px;
+  background-color: rgba(6, 18, 38, .98);
+  box-shadow: inset 0 1px 0 rgba(111, 227, 255, .08);
+}
+
+[data-ws-part="voice.favorite-servers.server"],
+[data-ws-part="voice.favorite-servers.strip.server"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .28);
+  border-radius: 4px;
+  background-color: var(--skin-p3-panel);
+}
+
+[data-ws-part="voice.favorite-servers.avatar"] {
+  color: var(--skin-p3-cyan);
+  border-color: var(--skin-p3-blue);
+  border-radius: 50%;
+  background-image: radial-gradient(circle at 28% 24%, rgba(111, 227, 255, .34), rgba(10, 26, 51, 1) 72%);
+}
+
+[data-ws-part="voice.favorite-servers.favorite-toggle"],
+[data-ws-part="voice.favorite-servers.current-toggle"],
+[data-ws-part="voice.favorite-servers.strip.favorite-toggle"] {
+  color: var(--skin-p3-cyan);
+  border-color: rgba(111, 227, 255, .36);
+  border-radius: 4px;
+  background-color: rgba(6, 18, 38, .98);
+}
+
+[data-ws-part="voice.favorite-servers.current-toggle"][aria-pressed="true"],
+[data-ws-part="voice.favorite-servers.favorite-toggle"][aria-pressed="true"],
+[data-ws-part="voice.favorite-servers.strip.favorite-toggle"][aria-pressed="true"] {
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  background-color: var(--skin-p3-blue);
+}
+
+[data-ws-part="voice.favorite-servers.switch-status"] { color: var(--skin-p3-amber); }
+
+[data-ws-part="voice.favorite-servers.tooltip"] {
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-blue);
+  border-radius: 4px;
+  background-color: var(--skin-p3-black);
+  box-shadow: 0 8px 18px rgba(0, 2, 16, .62);
+}
+
+/* ==================== §6.2 host 可见次级界面（非 demo 缺口） ==================== */
+[data-ws-part="app.toast"],
+[data-ws-part="home.community-dialog"],
+[data-ws-part="home.identity-import-dialog"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .48);
+  border-radius: 8px;
+  background-color: var(--skin-p3-black);
+  background-image: none;
+  box-shadow: 0 16px 38px rgba(0, 2, 16, .68);
+}
+
+[data-ws-part="home.identity-import.header"] { color: var(--skin-p3-cream); font-weight: 900; }
+
+[data-ws-part="home.identity-import.footer"],
+[data-ws-part="home.identity-import.security"] { color: var(--skin-p3-muted); }
+
+[data-ws-part="home.identity-import.drop-zone"],
+[data-ws-part="home.identity-import.textarea"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(111, 227, 255, .34);
+  border-radius: 4px;
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+}
+
+[data-ws-part="home.identity-import.textarea"]:focus,
+[data-ws-part="home.identity-import.drop-zone"]:focus-within {
+  border-color: var(--skin-p3-blue);
+  box-shadow: inset 0 0 0 2px var(--skin-p3-blue);
+}
+
+[data-ws-part="home.identity-import.error"] { color: var(--skin-p3-amber); }
+
+[data-ws-part="home.identity-import.cancel"],
+[data-ws-part="home.identity-import.close"],
+[data-ws-part="home.identity-import.file-button"] {
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  background-color: var(--skin-p3-panel);
+}
+
+[data-ws-part="home.identity-import.submit"] {
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  border-radius: 4px;
+  background-color: var(--skin-p3-blue);
+  font-weight: 900;
+}
+
+[data-ws-part="home.notice"],
+[data-ws-part="home.server-target"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .30);
+  border-radius: 4px;
+  background-color: rgba(6, 18, 38, .98);
+}
+
+[data-ws-part="home.favorite-toggle"],
+[data-ws-part="home.relay-choice"],
+[data-ws-part="home.relay-choice.copy"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .34);
+  border-radius: 4px;
+  background-color: var(--skin-p3-panel);
+}
+
+[data-ws-part="home.favorite-toggle"][aria-pressed="true"],
+[data-ws-part="home.relay-choice"][aria-selected="true"] {
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  background-color: var(--skin-p3-blue);
+}
+
+/* ============ §6.2 补充 | 保留 P35-06 的钩子覆盖意图（不因归并而丢钩子）============ */
+[data-ws-part="home.server-history"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .30);
+  border-radius: 8px;
+  background-color: transparent;
+  background-image: none;
+}
+
+[data-ws-part="home.server-history.favorite-toggle"] {
+  color: var(--skin-p3-cyan);
+  border-color: rgba(111, 227, 255, .36);
+  border-radius: 4px;
+  background-color: rgba(6, 18, 38, .98);
+}
+
+[data-ws-part="home.server-history.favorite-toggle"][aria-pressed="true"] {
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  background-color: var(--skin-p3-blue);
+}
+
+/* 嵌套频道成员列表：随分组做 4px 边角处理（不另造 13px 子档） */
+[data-ws-part="voice.channel-group.members"] {
+  border-radius: 4px;
+  background-color: transparent;
+}
+
+/* 成员行内状态文案的次级样式（与 §5 muted 一致） */
+[data-ws-part="voice.member-row.copy"] {
+  color: var(--skin-p3-muted);
+  border-radius: 4px;
+}
+
+/* ==================== §2.1 P4-only 11 个必补钩子（11/11） ====================
+   1  home.server-history.group       → §4.2 深色分组卡（细蓝线 / 4px 内卡圆角）+ 下方 8px 面板声明
+   2  home.server-history.select      → §4.2 选中面 + 本区焦点环
+   3  voice.favorite-servers.add      → §6.1 电光蓝主操作 + 下方焦点环
+   4  voice.favorite-servers.avatar   → §6.1 圆形头像语义（50%）+ 冷青边/径向高光
+   5  voice.favorite-servers.current-toggle → §6.1 默认暗面青色图标 + aria-pressed 蓝底黑字
+   6  voice.favorite-servers.dialog.field   → §6.1 深色字段容器 4px
+   7  voice.favorite-servers.dialog.header  → §6.1 cream + 粗字重
+   8  voice.favorite-servers.dialog.hint    → §6.1 muted #8fb4d4
+   9  voice.favorite-servers.dialog.input   → §6.1 不透明字段 + 焦点环
+   10 voice.favorite-servers.strip.add      → §6.1 与 add 同一 CTA 规则
+   11 voice.favorite-servers.switch-status  → §6.1 小面积琥珀状态标记
+   ================================================================== */
+[data-ws-part="home.server-history.group"] {
+  color: var(--skin-p3-cream);
+  border-color: rgba(14, 177, 244, .32);
+  border-radius: 8px;
+  background-color: rgba(6, 18, 38, .98);
+  box-shadow: inset 0 1px 0 rgba(111, 227, 255, .08);
+}
+
+[data-ws-part="home.server-history.select"]:focus-visible {
+  border-color: var(--skin-p3-blue);
+  box-shadow: inset 0 0 0 2px var(--skin-p3-blue);
+}
+
+[data-ws-part="voice.favorite-servers.avatar"] {
+  color: var(--skin-p3-cyan);
+  border-color: var(--skin-p3-blue);
+  border-radius: 50%;
+  background-color: var(--skin-p3-panel);
+  background-image: radial-gradient(circle at 28% 24%, rgba(111, 227, 255, .34), rgba(10, 26, 51, 1) 72%);
+  box-shadow: 0 0 0 1px rgba(14, 177, 244, .22);
+}
+
+[data-ws-part="voice.favorite-servers.current-toggle"][aria-pressed="true"] {
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  background-color: var(--skin-p3-blue);
+}
+
+[data-ws-part="voice.favorite-servers.add"]:focus-visible,
+[data-ws-part="voice.favorite-servers.strip.add"]:focus-visible,
+[data-ws-part="voice.favorite-servers.dialog.submit"]:focus-visible {
+  box-shadow: 0 0 0 2px var(--skin-p3-cyan), var(--skin-p3-hard-shadow);
+}
+
+[data-ws-part="voice.favorite-servers.switch-status"] {
+  color: var(--skin-p3-amber);
+  border-color: rgba(242, 184, 75, .44);
+  border-radius: 4px;
+}
+
+/* ==================== §7.1 状态覆盖 ==================== */
+[data-ws-part="voice.member-row"][data-ws-state="active"],
+[data-ws-part="voice.member-row"]:hover {
+  color: var(--skin-p3-cream);
+  border-color: rgba(111, 227, 255, .48);
+  background-color: rgba(14, 177, 244, .16);
+}
+
+[data-ws-part="voice.member-row"][data-ws-state="speaking"] {
+  border-color: rgba(111, 227, 255, .52);
+  background-color: rgba(14, 177, 244, .14);
+  box-shadow: inset 3px 0 0 var(--skin-p3-cyan);
+}
+
+[data-ws-part="voice.chat.tab"][data-ws-state="active"],
+[data-ws-part="voice.chat.tab"]:hover {
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  background-color: var(--skin-p3-blue);
+}
+
+[data-ws-part="voice.chat.message"][data-ws-state="mine"] [data-ws-part="voice.chat.message-bubble"] {
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+}
+
+[data-ws-part="control"][aria-pressed="true"] {
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  background-color: var(--skin-p3-blue);
+}
+
+[data-ws-part="voice.audio-dock.microphone"][aria-pressed="true"],
+[data-ws-part="voice.audio-dock.output"][aria-pressed="true"] {
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-cyan);
+  background-color: var(--skin-p3-blue);
+}
+
+[data-ws-part="voice.audio-dock.microphone"]:focus-visible,
+[data-ws-part="voice.audio-dock.output"]:focus-visible {
+  box-shadow: 0 0 0 2px var(--skin-p3-cyan);
+}
+
+[data-ws-part="home.server-history.select"]:focus-visible,
+[data-ws-part="voice.favorite-servers.add"]:focus-visible,
+[data-ws-part="voice.favorite-servers.strip.add"]:focus-visible,
+[data-ws-part="voice.favorite-servers.dialog.submit"]:focus-visible {
+  box-shadow: 0 0 0 2px var(--skin-p3-cyan), 0 2px 0 rgba(0, 2, 16, .58);
+}
+
+[data-ws-part="voice.member.live-indicator"] { color: var(--skin-p3-cyan); }
+
+[data-ws-part="home.gateway-status"],
+[data-ws-part="voice.connection-status"],
+[data-ws-part="voice.audio-status"],
+[data-ws-part="voice.favorite-servers.switch-status"] { color: var(--skin-p3-amber); }
+
+/* ==================== §7.2 低幅动效 + reduced-motion ==================== */
+[data-ws-part="home.connect"] { animation: p3-cta-breathe 3.6s ease-in-out infinite alternate; }
+
+[data-ws-part="home.join-card.sonar"] { animation: p3-sonar-breathe 6.5s ease-in-out infinite alternate; }
+
+[data-ws-part="voice.member.live-indicator"] { animation: p3-live-breathe 4.8s ease-in-out infinite alternate; }
+
+@keyframes p3-cta-breathe {
+  to { box-shadow: var(--skin-p3-hard-shadow), 0 0 0 4px rgba(14, 177, 244, .08); }
+}
+
+@keyframes p3-sonar-breathe {
+  to { box-shadow: 0 0 0 6px rgba(14, 177, 244, .04); }
+}
+
+@keyframes p3-live-breathe {
+  to { filter: drop-shadow(0 0 4px rgba(111, 227, 255, .30)); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  [data-ws-part="home.connect"],
+  [data-ws-part="home.join-card.sonar"],
+  [data-ws-part="voice.member.live-indicator"] {
+    animation: none;
+  }
+}
+
+/* ======== R6 收尾补丁：dock 圆滑栏 + 活动标题对比度 + 登录页背景透景 ======== */
+
+/* 1) dock：圆滑玻璃栏（用户要求对齐 ILLUSIA 圆滑风格；几何由宿主固定 281x54，仅改绘制）
+   特异性说明：运行时宿主重写为 .ws-skin-root[data-ws-skin] [..member-panel] > div[..audio-dock] = (0,4,1)，
+   与既有 [voice.member-panel] > div:last-child 规则同分，靠后置顺序获胜（浏览器 computed 实测圆角生效）。 */
+[data-ws-part="voice.member-panel"] > div[data-ws-part="voice.audio-dock"] {
+  border-radius: 20px;
+  border-color: rgba(14, 177, 244, .42);
+  background-color: #061226;
+  background-image: linear-gradient(135deg, rgba(111, 227, 255, .12), rgba(5, 13, 28, 0) 48%, rgba(14, 177, 244, .10));
+  box-shadow: 0 10px 26px rgba(0, 2, 16, .66), inset 0 1px 0 rgba(111, 227, 255, .16);
+}
+
+[data-ws-part="voice.audio-dock.microphone-panel"],
+[data-ws-part="voice.audio-dock.output-panel"] {
+  border-radius: 8px;
+}
+
+/* 2) 活动标题 h2：宿主 .section-heading h2 (0,2,1) 硬编码深色，在深底上实测 1.25:1；
+      用双 part 钩子提升到同权重 (0,2,1) 后置覆盖 */
+[data-ws-part="voice.activity"] [data-ws-part="voice.activity-heading"] h2 {
+  color: var(--skin-p3-cream);
+}
+
+/* 3) 登录页背景：中心透景（照片主体 Joker 在中央 x30-70%，遮罩降至 .14-.24）；
+      左侧文字区保留 .8-.9 保护小字，右侧卡片区 .22-.38；白字标题由 text-shadow 辅助 */
+[data-ws-part="home"] {
+  background-image:
+    radial-gradient(ellipse at 78% 20%, rgba(14, 177, 244, .14), transparent 38%),
+    linear-gradient(100deg, rgba(0, 2, 16, .90) 0%, rgba(0, 2, 16, .80) 14%, rgba(0, 2, 16, .52) 30%, rgba(0, 2, 16, .24) 46%, rgba(0, 2, 16, .14) 60%, rgba(0, 2, 16, .22) 76%, rgba(0, 2, 16, .38) 100%),
+    url("assets/bg.jpg");
+  background-size: auto, auto, cover;
+  background-position: center, center, 24% 30%;
+  background-repeat: no-repeat, no-repeat, no-repeat;
+}
+
+[data-ws-part="home.hero.title"] {
+  text-shadow: 0 2px 14px rgba(0, 2, 16, .72), 0 1px 3px rgba(0, 2, 16, .58);
+}
+
+[data-ws-part="home.hero.description"] {
+  text-shadow: 0 1px 8px rgba(0, 2, 16, .78), 0 1px 2px rgba(0, 2, 16, .66);
+}
+
+[data-ws-part="home.hero.eyebrow"] {
+  text-shadow: 0 1px 6px rgba(0, 2, 16, .70);
+}
+
+/* ======== R7 修正：审查阻断项清理（2026-10-15） ======== */
+
+/* 1) 频道组选中态：白字/实心蓝底实测 2.44:1 不达标 → 黑字（与 CTA 黑字策略一致，8.48:1） */
+[data-ws-part="voice.channel-group"] [data-ws-part="control"][aria-selected="true"],
+[data-ws-part="voice.channel-group"] [data-ws-part="control"][aria-current="true"],
+[data-ws-part="voice.channel-group"] [data-ws-part="control"][aria-pressed="true"] {
+  color: var(--skin-p3-black);
+}
+
+[data-ws-part="voice.channel-group"] [data-ws-part="control"][aria-selected="true"] *,
+[data-ws-part="voice.channel-group"] [data-ws-part="control"][aria-current="true"] *,
+[data-ws-part="voice.channel-group"] [data-ws-part="control"][aria-pressed="true"] * {
+  color: var(--skin-p3-black);
+}
+
+/* 2) 音量面板圆角收敛：14px → 8px（P3 四档体系：主卡10/面板8/坞6/控件4） */
+[data-ws-part="voice.audio-dock.microphone-panel"],
+[data-ws-part="voice.audio-dock.output-panel"] {
+  border-radius: 8px;
+}
+
+/* 3) 减少动态：补齐 trigger 过渡覆盖（此前仅覆盖 control/connect/member-row） */
+@media (prefers-reduced-motion: reduce) {
+  [data-ws-part="skin.trigger"],
+  [data-ws-part="language.trigger"] {
+    transition: none;
+  }
+}
+
+/* 4) 网关状态点：宿主绿点 #65d879 → 琥珀（§7.1 要求"点本身为琥珀"） */
+[data-ws-part="home.gateway-status"] span {
+  background-color: var(--skin-p3-amber);
+  border-color: var(--skin-p3-amber);
+  box-shadow: 0 0 10px rgba(242, 184, 75, .38);
+}
+
+/* ======== R8 | demo 页覆盖（公开路由 /demo 可访问，38 钩子） ======== */
+[data-ws-part="demo.layout"] {
+  color: var(--skin-p3-cream);
+  background-color: var(--skin-p3-black);
+  background-image: radial-gradient(rgba(14, 177, 244, .18) 1px, transparent 1.1px), linear-gradient(180deg, rgba(0, 2, 16, .20), rgba(0, 2, 16, .72));
+}
+[data-ws-part="demo.header-tools"] [data-ws-part="control"] {
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  background-color: var(--skin-p3-panel);
+}
+[data-ws-part="demo.brand"] {
+  color: var(--skin-p3-accent);
+  font-weight: 900;
+}
+[data-ws-part="demo.home-link"],
+[data-ws-part="demo.language-switcher"],
+[data-ws-part="demo.skin-switcher"] {
+  color: var(--skin-p3-cream);
+}
+[data-ws-part="demo.badge"] {
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  background-color: var(--skin-p3-accent);
+}
+[data-ws-part="demo.hero.title"] {
+  color: var(--skin-p3-white);
+  font-weight: 900;
+}
+[data-ws-part="demo.hero.description"] {
+  color: var(--skin-p3-muted);
+}
+[data-ws-part="demo.hero.online"] {
+  color: var(--skin-p3-accent);
+}
+[data-ws-part="demo.live"] {
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  background-color: var(--skin-p3-accent);
+  font-weight: 800;
+}
+[data-ws-part="demo.channels.heading"] {
+  color: var(--skin-p3-white);
+  font-weight: 900;
+}
+[data-ws-part="demo.channel"],
+[data-ws-part="demo.channel.select"] {
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+}
+[data-ws-part="demo.channel.members"] {
+  color: var(--skin-p3-muted);
+}
+[data-ws-part="demo.voice-heading"] {
+  color: var(--skin-p3-white);
+  font-weight: 900;
+}
+[data-ws-part="demo.voice-grid"] {
+  color: var(--skin-p3-cream);
+}
+[data-ws-part="demo.member-name"] {
+  color: var(--skin-p3-cream);
+  font-weight: 800;
+}
+span[data-ws-part="demo.member-status"] {
+  color: var(--skin-p3-muted);
+}
+[data-ws-part="demo.wave"] {
+  color: var(--skin-p3-accent);
+}
+[data-ws-part="demo.chat.heading"] {
+  color: var(--skin-p3-white);
+  font-weight: 900;
+}
+[data-ws-part="demo.chat.tabs"] {
+  color: var(--skin-p3-cream);
+}
+[data-ws-part="demo.chat.tab"] {
+  color: var(--skin-p3-muted);
+  border-color: transparent;
+  border-radius: 4px;
+  background-color: var(--skin-p3-panel);
+}
+[data-ws-part="demo.chat.tab"][aria-selected="true"],
+[data-ws-part="demo.chat.tab"][data-ws-state="active"] {
+  color: var(--skin-p3-black);
+  background-color: var(--skin-p3-accent);
+  font-weight: 800;
+}
+[data-ws-part="demo.chat.messages"] {
+  color: var(--skin-p3-cream);
+}
+[data-ws-part="demo.chat.message"] {
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  background-color: var(--skin-p3-panel);
+}
+[data-ws-part="demo.chat.composer"] {
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  background-color: var(--skin-p3-panel);
+}
+[data-ws-part="demo.chat.input"] {
+  color: var(--skin-p3-cream);
+  background-color: transparent;
+}
+[data-ws-part="demo.chat.empty"] {
+  color: var(--skin-p3-muted);
+}
+[data-ws-part="demo.actions.heading"] {
+  color: var(--skin-p3-white);
+  font-weight: 900;
+}
+[data-ws-part="demo.action.poke"],
+[data-ws-part="demo.action.reconnect"],
+[data-ws-part="demo.action.speaking"] {
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  background-color: var(--skin-p3-accent);
+  font-weight: 800;
+}
+[data-ws-part="demo.note"] {
+  color: var(--skin-p3-muted);
+}
+[data-ws-part="demo.user"] {
+  color: var(--skin-p3-cream);
+}
+[data-ws-part="demo.poke-notification"] {
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  background-color: var(--skin-p3-panel);
+  box-shadow: 0 12px 30px rgba(0, 2, 16, .72);
+}
+[data-ws-part="demo.poke.dismiss"] {
+  color: var(--skin-p3-muted);
+}
+[data-ws-part="demo.reconnect"] {
+  color: var(--skin-p3-black);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  background-color: var(--skin-p3-accent);
+}
+[data-ws-part="demo.reconnect.restore"] {
+  color: var(--skin-p3-cream);
+}
+
+/* R8 | P5 频道红条连续性修复（标题行补 inset 线，消除"红条中断"） */
+
+/* ======== R9 | demo 页收尾（宿主浅色残留清理） ======== */
+
+/* 操作面板容器（宿主白 0.9 → 主题深面板） */
+[data-ws-part="demo.actions"] {
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  background-color: var(--skin-p3-panel);
+  background-image: none;
+  box-shadow: 0 12px 30px rgba(0, 2, 16, .60);
+}
+
+/* 底部说明条 */
+[data-ws-part="demo.note"] {
+  color: var(--skin-p3-muted);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  background-color: var(--skin-p3-black);
+  background-image: none;
+}
+
+/* 聊天气泡正文（宿主浅灰底 → 透明 + 主题字色） */
+[data-ws-part="demo.chat.message"] p {
+  color: var(--skin-p3-cream);
+  background-color: transparent;
+}
+
+/* 频道列表选中项文字（宿主 teal → 主题强调色） */
+[data-ws-part="demo.channel.select"] span,
+[data-ws-part="demo.channel.select"] strong {
+  color: var(--skin-p3-cyan);
+}
+
+[data-ws-part="demo.channel.select"] small {
+  color: var(--skin-p3-muted);
+}
+
+/* 品牌区（宿主 teal → 主题色） */
+[data-ws-part="demo.brand"] strong {
+  color: var(--skin-p3-white);
+}
+
+[data-ws-part="demo.brand"] small {
+  color: var(--skin-p3-muted);
+}
+
+/* 成员状态"正在说话…"（宿主绿 → 主题说话色） */
+span[data-ws-part="demo.member-status"] {
+  color: #4ade80;
+}
+
+[data-ws-part="demo.home-link"] {
+  color: var(--skin-p3-cream);
+  border-color: var(--skin-p3-line);
+  border-radius: 4px;
+  background-color: var(--skin-p3-panel);
+}
+
+/* demo 操作面板标题子元素（宿主对 span/strong 直接染色） */
+[data-ws-part="demo.actions.heading"] span,
+[data-ws-part="demo.actions.heading"] strong {
+  color: var(--skin-p3-cream);
+}
+
+/* v0.2.9 兼容：宿主直接给 brand 内文字染色，需逐子元素覆盖 */
+[data-ws-part="home.brand"] strong {
+  color: var(--skin-p3-cream);
+}
+
+[data-ws-part="home.brand"] small {
+  color: var(--skin-p3-muted);
+}

@@ -1,0 +1,15 @@
+{
+  "schemaVersion": 1,
+  "id": "persona3",
+  "name": "Persona3",
+  "version": "2.2.1",
+  "author": "Jh_Harry",
+  "license": "MIT (code) / Fan-made non-commercial (assets)",
+  "description": "女神异闻录3 Reload 风格：深蓝黑底、电光蓝与冷青强调色，细实线描边、纯平色填充、斜切几何。含主视觉背景与角色头像。",
+  "minAppVersion": "0.2.5",
+  "package": {
+    "ref": "v2.2.1",
+    "path": "persona3.wskin",
+    "sha256": "0a03ff632b958a72a4db7a8b242cb732809e8d1eec628717b47f5849a1d9cf37"
+  }
+}
