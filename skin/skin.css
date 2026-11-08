@@ -2363,7 +2363,7 @@
   color: var(--skin-p3-cream);
   font-weight: 800;
 }
-span[data-ws-part="demo.member-status"] {
+:root [data-ws-part="demo.member-status"] {
   color: var(--skin-p3-muted);
 }
 [data-ws-part="demo.wave"] {
@@ -2498,7 +2498,7 @@ span[data-ws-part="demo.member-status"] {
 }
 
 /* 成员状态"正在说话…"（宿主绿 → 主题说话色） */
-span[data-ws-part="demo.member-status"] {
+:root [data-ws-part="demo.member-status"] {
   color: #4ade80;
 }
 
